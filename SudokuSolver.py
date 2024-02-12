@@ -230,21 +230,23 @@ print('\n\n\n')
 display(board)
       
 
+'''
+How to recreate the backtracking algorithm:
 
+start iterating through the list until you find a 0
 
-#start iterating through the list until you find a 0
+after finding the first 0 keep adding 1 to it until it is a valid entree, or until it is 9
 
-#after finding the first 0 keep adding 1 to it until it is a valid entree, or until it is 9
+if it is a valid entree keep going until you find the next 0
 
-#if it is a valid entree keep going until you find the next 0
+if it is equal to 9 then you have to start again from 0 and then go back the the last number you chose
 
-#if it is equal to 9 then you have to start again from 0 and then go back the the last number you chose
+keep adding 1 to the last number you chose until it is valid or equal to 9
 
-#keep adding 1 to the last number you chose until it is valid or equal to 9
+if it is valid change it to that number then continue changing the rest
 
-#if it is valid change it to that number then continue changing the rest
+if it is 9 go back to the number you chose before
 
-#if it is 9 go back to the number you chose before
-
-#keep adding 1 to it until it is valid or 9
+keep adding 1 to it until it is valid or 9
+'''
 
