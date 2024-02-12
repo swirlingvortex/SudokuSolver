@@ -77,7 +77,7 @@ boxes = {
     (5,7):[(3,7),(3,8),(4,6),(4,7),(4,8),(5,6),(3,6),(5,8)],
     (5,8):[(3,7),(3,8),(4,6),(4,7),(4,8),(5,6),(5,7),(3,6)],
 
-#box 7, the one in the botton left
+#box 7, the one in the bottom left
     (6,0):[(6,1),(6,2),(7,0),(7,1),(7,2),(8,0),(8,1),(8,2)],
     (6,1):[(6,0),(6,2),(7,0),(7,1),(7,2),(8,0),(8,1),(8,2)],
     (6,2):[(6,1),(6,0),(7,0),(7,1),(7,2),(8,0),(8,1),(8,2)],
@@ -162,30 +162,25 @@ def Try(board,val,i,j):
     return 0
 
 
-#while the last thing in tried doesnt work at all it keeps removing it and going back
+#while the last thing in tried doesn't work at all it keeps removing it and going back
 
-#after it removes all the ones that dont work it fixes the last one
+#after it removes all the ones that don't work it fixes the last one
 
 #after that it tells the program where to continue i and j from
 
 def fixLast():
-  print(tried)
   removed = []
   while Try(board,tried[-1][2],tried[-1][0],tried[-1][1]) == 0:
     
-    #while there is no valid entree for the last thing in tried, ie we cant make it work we keep going back
+    #while there is no valid entree for the last thing in tried, ie we can't make it work we keep going back
     removed.append(tried[-1])
-    del(tried[-1])
-    print(tried)
-  
+    del(tried[-1])  
   #time to set all removed things to 0
   for s in removed:
      board[s[0]][s[1]] = 0       
-  print('tried is', tried)         
   tried[-1][2] = Try(board,tried[-1][2],tried[-1][0],tried[-1][1])
   i,j = tried[-1][0],tried[-1][1]
   board[i][j] = tried[-1][2]
-  print("returning",i,j,tried[-1][2])
   if j == 8:
      return (i+1,0)
   else:
@@ -201,20 +196,14 @@ def backTrack():
    j = 0
    while i < 9:
       while j < 9:
-        print("i and j are",i,j)
-        print('\n\n')
-        display(board)
-        print('\n\n')
         if board[i][j] == 0:
           val = Try(board,0,i,j)
           if val == 0:
-             print('Fixlast called at', i,j)
              coords = fixLast()
              i = coords[0]
              j = coords[1]
           else:
              board[i][j] = val
-             print("Assigned a value of",val, "to the coords", i,j)
              tried.append([i,j,val])
           
 
