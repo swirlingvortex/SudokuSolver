@@ -170,15 +170,13 @@ def Try(board,val,i,j):
 #after that it tells the program where to continue i and j from
 
 def fixLast():
-  removed = []
   while Try(board,tried[-1][2],tried[-1][0],tried[-1][1]) == 0:
-    
+
     #while there is no valid entree for the last thing in tried, ie we can't make it work we keep going back
-    removed.append(tried[-1])
+    s = tried[-1]
+    board[s[0]][s[1]] = 0
     del(tried[-1])  
   #time to set all removed things to 0
-  for s in removed:
-     board[s[0]][s[1]] = 0       
   tried[-1][2] = Try(board,tried[-1][2],tried[-1][0],tried[-1][1])
   i,j = tried[-1][0],tried[-1][1]
   board[i][j] = tried[-1][2]
