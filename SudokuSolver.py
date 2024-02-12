@@ -123,6 +123,7 @@ def display(board):
         print(board[i][j],end = " ")
     print()
 
+print("Unsolved")
 display(board)
 
 
@@ -216,6 +217,7 @@ def backTrack():
 #Makes program start
 backTrack()
 print('\n\n\n')
+print("Solved")
 display(board)
       
 
