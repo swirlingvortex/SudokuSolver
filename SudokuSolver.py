@@ -1,17 +1,13 @@
-board = [
-   [8,0,6,0,0,2,0,0,1],
-   [2,0,0,0,8,4,9,0,3],
-   [0,0,0,5,0,9,0,0,6],
-   [0,0,3,9,5,0,0,2,0],
-   [0,7,1,4,2,0,0,0,0],
-   [9,2,0,1,0,0,7,5,0],
-   [4,5,7,0,9,0,3,0,0],
-   [3,6,2,7,4,1,8,9,5],
-   [1,0,0,2,3,5,4,6,0]]
+board = open('board.txt','r').read().strip().split('\n')
 
-#This is going to be used to determine which numbers are in which box. This will be needed when implementing the backtracking algorithm
+for i in range(len(board)):
+   board[i] = board[i].split(',')
+
+for i in range(len(board)):
+   for j in range(len(board[i])):
+      board[i][j] = int(board[i][j])
+
 boxes = {
-#box 1, the one in the top left
     (0,0):[(0,1),(0,2),(1,0),(1,1),(1,2),(2,0),(2,1),(2,2)],
     (0,1):[(0,0),(0,2),(1,0),(1,1),(1,2),(2,0),(2,1),(2,2)],
     (0,2):[(0,1),(0,0),(1,0),(1,1),(1,2),(2,0),(2,1),(2,2)],
@@ -22,7 +18,6 @@ boxes = {
     (2,1):[(0,1),(0,2),(1,0),(1,1),(1,2),(2,0),(0,0),(2,2)],
     (2,2):[(0,1),(0,2),(1,0),(1,1),(1,2),(2,0),(2,1),(0,0)],
 
-#box 2, the one in the top middle
     (0,3):[(0,4),(0,5),(1,3),(1,4),(1,5),(2,3),(2,4),(2,5)],
     (0,4):[(0,3),(0,5),(1,3),(1,4),(1,5),(2,3),(2,4),(2,5)],
     (0,5):[(0,4),(0,3),(1,3),(1,4),(1,5),(2,3),(2,4),(2,5)],
@@ -33,7 +28,6 @@ boxes = {
     (2,4):[(0,4),(0,5),(1,3),(1,4),(1,5),(2,3),(0,3),(2,5)],
     (2,5):[(0,4),(0,5),(1,3),(1,4),(1,5),(2,3),(2,4),(0,3)],
 
-#box 3, the one in the top right
     (0,6):[(0,7),(0,8),(1,6),(1,7),(1,8),(2,6),(2,7),(2,8)],
     (0,7):[(0,6),(0,8),(1,6),(1,7),(1,8),(2,6),(2,7),(2,8)],
     (0,8):[(0,7),(0,6),(1,6),(1,7),(1,8),(2,6),(2,7),(2,8)],
@@ -44,7 +38,6 @@ boxes = {
     (2,7):[(0,7),(0,8),(1,6),(1,7),(1,8),(2,6),(0,6),(2,8)],
     (2,8):[(0,7),(0,8),(1,6),(1,7),(1,8),(2,6),(2,7),(0,6)],
 
-#box 4, the one in the middle left
     (3,0):[(3,1),(3,2),(4,0),(4,1),(4,2),(5,0),(5,1),(5,2)],
     (3,1):[(3,0),(3,2),(4,0),(4,1),(4,2),(5,0),(5,1),(5,2)],
     (3,2):[(3,1),(3,0),(4,0),(4,1),(4,2),(5,0),(5,1),(5,2)],
@@ -55,7 +48,6 @@ boxes = {
     (5,1):[(3,1),(3,2),(4,0),(4,1),(4,2),(5,0),(3,0),(5,2)],
     (5,2):[(3,1),(3,2),(4,0),(4,1),(4,2),(5,0),(5,1),(3,0)],
 
-#box 5, the one in the dead center
     (3,3):[(3,4),(3,5),(4,3),(4,4),(4,5),(5,3),(5,4),(5,5)],
     (3,4):[(3,3),(3,5),(4,3),(4,4),(4,5),(5,3),(5,4),(5,5)],
     (3,5):[(3,4),(3,3),(4,3),(4,4),(4,5),(5,3),(5,4),(5,5)],
@@ -66,7 +58,6 @@ boxes = {
     (5,4):[(3,4),(3,5),(4,3),(4,4),(4,5),(5,3),(3,3),(5,5)],
     (5,5):[(3,4),(3,5),(4,3),(4,4),(4,5),(5,3),(5,4),(3,3)],
 
-#box 6, the one in the center right
     (3,6):[(3,7),(3,8),(4,6),(4,7),(4,8),(5,6),(5,7),(5,8)],
     (3,7):[(3,6),(3,8),(4,6),(4,7),(4,8),(5,6),(5,7),(5,8)],
     (3,8):[(3,7),(3,6),(4,6),(4,7),(4,8),(5,6),(5,7),(5,8)],
@@ -77,7 +68,6 @@ boxes = {
     (5,7):[(3,7),(3,8),(4,6),(4,7),(4,8),(5,6),(3,6),(5,8)],
     (5,8):[(3,7),(3,8),(4,6),(4,7),(4,8),(5,6),(5,7),(3,6)],
 
-#box 7, the one in the bottom left
     (6,0):[(6,1),(6,2),(7,0),(7,1),(7,2),(8,0),(8,1),(8,2)],
     (6,1):[(6,0),(6,2),(7,0),(7,1),(7,2),(8,0),(8,1),(8,2)],
     (6,2):[(6,1),(6,0),(7,0),(7,1),(7,2),(8,0),(8,1),(8,2)],
@@ -88,7 +78,6 @@ boxes = {
     (8,1):[(6,1),(6,2),(7,0),(7,1),(7,2),(8,0),(6,0),(8,2)],
     (8,2):[(6,1),(6,2),(7,0),(7,1),(7,2),(8,0),(8,1),(6,0)],
 
-#box 8, the one in the bottom center
     (6,3):[(6,4),(6,5),(7,3),(7,4),(7,5),(8,3),(8,4),(8,5)],
     (6,4):[(6,3),(6,5),(7,3),(7,4),(7,5),(8,3),(8,4),(8,5)],
     (6,5):[(6,4),(6,3),(7,3),(7,4),(7,5),(8,3),(8,4),(8,5)],
@@ -99,7 +88,6 @@ boxes = {
     (8,4):[(6,4),(6,5),(7,3),(7,4),(7,5),(8,3),(6,3),(8,5)],
     (8,5):[(6,4),(6,5),(7,3),(7,4),(7,5),(8,3),(8,4),(6,3)],
 
-#box 9, the one in the bottom right
     (6,6):[(6,7),(6,8),(7,6),(7,7),(7,8),(8,6),(8,7),(8,8)],
     (6,7):[(6,6),(6,8),(7,6),(7,7),(7,8),(8,6),(8,7),(8,8)],
     (6,8):[(6,7),(6,6),(7,6),(7,7),(7,8),(8,6),(8,7),(8,8)],
@@ -127,9 +115,9 @@ print("Unsolved")
 display(board)
 
 
-tried = []
+changed = []
 
-def valid(board,value,y,x):
+def validEntry(board,value,y,x):
   #check horizontally
     for v in range(9):
       if v == x:
@@ -153,33 +141,26 @@ def valid(board,value,y,x):
 i = 0
 j = 0
 
-#cant name it try due to it being a keyword
-
-#finds the lowest possible usable value at the given position
-def Try(board,val,i,j):
+def findLowestNum(board,val,i,j):
     for v in range(val+1,10):
-      if valid(board,v,i,j):
+      if validEntry(board,v,i,j):
          return v
     return 0
 
+def backtrack():
+  removedFromChanged = []
+  while findLowestNum(board,changed[-1][2],changed[-1][0],changed[-1][1]) == 0:
+    
+    removedFromChanged.append(changed[-1])
+    del(changed[-1])  
 
-#while the last thing in tried doesn't work at all it keeps removing it and going back
 
-#after it removes all the ones that don't work it fixes the last one
 
-#after that it tells the program where to continue i and j from
-
-def fixLast():
-  while Try(board,tried[-1][2],tried[-1][0],tried[-1][1]) == 0:
-
-    #while there is no valid entree for the last thing in tried, ie we can't make it work we keep going back
-    s = tried[-1]
-    board[s[0]][s[1]] = 0
-    del(tried[-1])  
-  #time to set all removed things to 0
-  tried[-1][2] = Try(board,tried[-1][2],tried[-1][0],tried[-1][1])
-  i,j = tried[-1][0],tried[-1][1]
-  board[i][j] = tried[-1][2]
+  for s in removedFromChanged:
+     board[s[0]][s[1]] = 0       
+  changed[-1][2] = findLowestNum(board,changed[-1][2],changed[-1][0],changed[-1][1])
+  i,j = changed[-1][0],changed[-1][1]
+  board[i][j] = changed[-1][2]
   if j == 8:
      return (i+1,0)
   else:
@@ -188,54 +169,28 @@ def fixLast():
  
 
 
-#the actual solver
-
-def backTrack():
+def solve():
    i = 0
    j = 0
    while i < 9:
       while j < 9:
         if board[i][j] == 0:
-          val = Try(board,0,i,j)
+          val = findLowestNum(board,0,i,j)
           if val == 0:
-             coords = fixLast()
+             coords = backtrack()
              i = coords[0]
              j = coords[1]
           else:
              board[i][j] = val
-             tried.append([i,j,val])
+             changed.append([i,j,val])
           
 
 
-      #makes it so that i and j are not infinite loops
         j += 1
       j = 0
       i += 1
 
-#Makes program start
-backTrack()
-print('\n\n\n')
+solve()
+print('\n')
 print("Solved")
 display(board)
-      
-
-'''
-How to recreate the backtracking algorithm:
-
-start iterating through the list until you find a 0
-
-after finding the first 0 keep adding 1 to it until it is a valid entree, or until it is 9
-
-if it is a valid entree keep going until you find the next 0
-
-if it is equal to 9 then you have to start again from 0 and then go back the the last number you chose
-
-keep adding 1 to the last number you chose until it is valid or equal to 9
-
-if it is valid change it to that number then continue changing the rest
-
-if it is 9 go back to the number you chose before
-
-keep adding 1 to it until it is valid or 9
-'''
-
